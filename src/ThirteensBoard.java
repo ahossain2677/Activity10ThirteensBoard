@@ -55,7 +55,7 @@ public class ElevensBoard extends Board {
     public boolean isLegal(List<Integer> selectedCards) {
         if (selectedCards.size() == 2) {
             return containsPairSum11(selectedCards);
-        } else if (selectedCards.size() == 3) {
+        } else if (selectedCards.size() == 1) {
             return containsJQK(selectedCards);
         } else {
             return false;
@@ -73,7 +73,7 @@ public class ElevensBoard extends Board {
     @Override
     public boolean anotherPlayIsPossible() {
         List<Integer> cIndexes = cardIndexes();
-        return containsPairSum11(cIndexes) || containsJQK(cIndexes);
+        return containsPairSum13(cIndexes) || containsK(cIndexes);
     }
 
     /**
@@ -84,12 +84,12 @@ public class ElevensBoard extends Board {
      * @return true if the board entries in selectedCards
      *              contain an 11-pair; false otherwise.
      */
-    private boolean containsPairSum11(List<Integer> selectedCards) {
+    private boolean containsPairSum13(List<Integer> selectedCards) {
         for (int sk1 = 0; sk1 < selectedCards.size(); sk1++) {
             int k1 = selectedCards.get(sk1).intValue();
             for (int sk2 = sk1 + 1; sk2 < selectedCards.size(); sk2++) {
                 int k2 = selectedCards.get(sk2).intValue();
-                if (cardAt(k1).pointValue() + cardAt(k2).pointValue() == 11) {
+                if (cardAt(k1).pointValue() + cardAt(k2).pointValue() == 13) {
                     return true;
                 }
             }
@@ -105,9 +105,7 @@ public class ElevensBoard extends Board {
      * @return true if the board entries in selectedCards
      *              include a jack, a queen, and a king; false otherwise.
      */
-    private boolean containsJQK(List<Integer> selectedCards) {
-        boolean foundJack = false;
-        boolean foundQueen = false;
+    private boolean containsK(List<Integer> selectedCards) {
         boolean foundKing = false;
         for (Integer kObj : selectedCards) {
             int k = kObj.intValue();
